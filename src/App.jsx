@@ -41,23 +41,25 @@ const animesData = [
 ];
 
 export default function App() {
+  const [animes, setAnimes] = useState(animesData);
+
   
   return (
     <>
-      <NavBar />
-      <Main />
+      <NavBar animes={animes} />
+      <Main animes = {animes} />
       
     </>
   );
 }
 
 
-function NavBar () {
+function NavBar ({animes}) {
 
   return (
     <nav className="nav-bar">
         <Logo />
-        <Search />
+        <Search  animes = {animes} />
       </nav>
   )
 }
@@ -72,28 +74,27 @@ function Logo () {
   )
 }
 
-function Search () {
+function Search ({animes}) {
   const [query, setQuery] = useState('');
 
   return (
      <div className="search-container">
           <input className="search" type="text" placeholder="Search anime..." value={query} onChange={(e) => setQuery(e.target.value)} />
-          <NumResult />
+          <NumResult animes= {animes}  />
         </div>
   )
 }
 
-function NumResult () {
+function NumResult ({animes}) {
   return (
     <p className="search-results">
-            Found <strong>4</strong> results
+            Found <strong> {animes.length} </strong> results
           </p>
   )
 }
 
-function Main () {
+function Main ({animes}) {
 
-  const [animes, setAnimes] = useState(animesData);
   const [selectedAnime, setSelectedAnime] = useState(animes[0]);
   
 
@@ -159,8 +160,14 @@ function SelectedBox ({selectedAnime}) {
           <button className="btn-toggle" onClick={() => setIsOpen2((open) => !open)}>
             {isOpen2 ? '–' : '+'}
           </button>
-          {isOpen2 && (
-            <div className="details">
+          {isOpen2 && <AnimeDetail selectedAnime = {selectedAnime} /> }
+        </div>
+  )
+}
+
+function AnimeDetail ({selectedAnime}) {
+  return (
+    <div className="details">
               <header>
                 <img src={selectedAnime.image} alt={`${selectedAnime.title} cover`} />
                 <div className="details-overview">
@@ -176,7 +183,5 @@ function SelectedBox ({selectedAnime}) {
                 </p>
               </section>
             </div>
-          )}
-        </div>
   )
 }
