@@ -41,7 +41,58 @@ const animesData = [
 ];
 
 export default function App() {
+  
+  return (
+    <>
+      <NavBar />
+      <Main />
+      
+    </>
+  );
+}
+
+
+function NavBar () {
+
+  return (
+    <nav className="nav-bar">
+        <Logo />
+        <Search />
+      </nav>
+  )
+}
+
+function Logo () {
+  return (
+    <div className="logo">
+          <span role="img">🍥</span>
+          <h1>VVIBU</h1>
+          <span role="img">🍥</span>
+        </div>
+  )
+}
+
+function Search () {
   const [query, setQuery] = useState('');
+
+  return (
+     <div className="search-container">
+          <input className="search" type="text" placeholder="Search anime..." value={query} onChange={(e) => setQuery(e.target.value)} />
+          <NumResult />
+        </div>
+  )
+}
+
+function NumResult () {
+  return (
+    <p className="search-results">
+            Found <strong>4</strong> results
+          </p>
+  )
+}
+
+function Main () {
+
   const [animes, setAnimes] = useState(animesData);
   const [selectedAnime, setSelectedAnime] = useState(animes[0]);
   const [isOpen1, setIsOpen1] = useState(true);
@@ -51,24 +102,8 @@ export default function App() {
     const newAnime = animes.filter((anime) => anime.mal_id === id);
     setSelectedAnime(newAnime[0]);
   }
-
   return (
-    <>
-      <nav className="nav-bar">
-        <div className="logo">
-          <span role="img">🍥</span>
-          <h1>WeeBoo</h1>
-          <span role="img">🍥</span>
-        </div>
-        <div className="search-container">
-          <input className="search" type="text" placeholder="Search anime..." value={query} onChange={(e) => setQuery(e.target.value)} />
-          <p className="search-results">
-            Found <strong>4</strong> results
-          </p>
-        </div>
-      </nav>
-
-      <main className="main">
+    <main className="main">
         <div className="box">
           <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
             {isOpen1 ? '–' : '+'}
@@ -113,6 +148,5 @@ export default function App() {
           )}
         </div>
       </main>
-    </>
-  );
+  )
 }
